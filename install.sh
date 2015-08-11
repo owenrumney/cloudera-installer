@@ -1,5 +1,10 @@
 #!/bin/bash
 
+ssh-keygen -t rsa -P ""
+
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+
 BASEDIR=`pwd`
 
 mkdir -p /usr/local/cloudera
