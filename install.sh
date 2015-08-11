@@ -33,7 +33,7 @@ wget http://archive.cloudera.com/cdh5/cdh/5/oozie-4.1.0-cdh5.4.4.tar.gz
 wget http://archive.cloudera.com/cdh5/cdh/5/zookeeper-3.4.5-cdh5.4.4.tar.gz
 wget http://archive.cloudera.com/cdh5/cdh/5/pig-0.12.0-cdh5.4.4.tar.gz
 wget http://archive.cloudera.com/cdh5/cdh/5/hue-3.7.0-cdh5.4.4.tar.gz
-
+wget http://archive.cloudera.com/cdh5/cdh/5/oozie-4.1.0-cdh5.4.4.tar.gz
 
 tar -xvf hadoop-2.6.0-cdh5.4.4.tar.gz
 tar -xvf hbase-1.0.0-cdh5.4.4.tar.gz
@@ -42,6 +42,7 @@ tar -xvf oozie-4.1.0-cdh5.4.4.tar.gz
 tar -xvf zookeeper-3.4.5-cdh5.4.4.tar.gz
 tar -xvf pig-0.12.0-cdh5.4.4.tar.gz
 tar -xvf hue-3.7.0-cdh5.4.4.tar.gz
+tar -xvf oozie-4.1.0-cdh5.4.4.tar.gz
 
 rm *.gz
 
@@ -51,7 +52,8 @@ mv hive-1.1.0-cdh5.4.4 hive
 mv oozie-4.1.0-cdh5.4.4 oozie
 mv zookeeper-3.4.5-cdh5.4.4 zookeeper
 mv pig-0.12.0-cdh5.4.4 pig
-mv hue-3.7.0-cdh5.4.4.tar.gz hue
+mv hue-3.7.0-cdh5.4.4 hue
+mv oozie-4.1.0-cdh5.4.4 oozie
 
 CDH="5.4.4"
 export HADOOP_HOME="/usr/local/cloudera/${CDH}/hadoop"
@@ -64,6 +66,7 @@ cp ~/.bash_profile ~/.bash_profile.bak
 cat << EOF >> ~/.bash_profile
 CDH="5.4.4"
 export HADOOP_HOME="/usr/local/cloudera/${CDH}/hadoop"
+export HUE_HOME="/usr/local/cloudera/${CDH}/hue"
 export HBASE_HOME="/usr/local/cloudera/${CDH}/hbase"
 export HIVE_HOME="/usr/local/cloudera/${CDH}/hive"
 export HCAT_HOME="/usr/local/cloudera/${CDH}/hive/hcatalog"
@@ -87,6 +90,11 @@ export HBASE_PID_DIR="/usr/local/cloudera/ops/pids"
 export HBASE_MANAGES_ZK=true
 EOF
 
+#configure hue - you'll need brew for this.
+brew install gmp
+cd hue
+make apps
+
 cd $BASEDIR/conf
 
 cp core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
@@ -98,4 +106,6 @@ cp hbase-site.xml $HBASE_HOME/conf/hbase-site.xml
 hdfs namenode -format
 $HADOOP_HOME/sbin/start-all.sh
 $HBASE_HOME/bin/start-hbase.sh
+$HIVE_HOME/bin/hive service hiveserver
+$HUE_HOME/build/env/bin/hue runserver
 
