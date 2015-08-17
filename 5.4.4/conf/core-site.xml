@@ -21,4 +21,12 @@
     with this property (which take precedence), codec classes on the classpath
     are discovered using a Java ServiceLoader.</description>
 </property>
+ <property>
+      <name>hadoop.proxyuser.hue.hosts</name>
+      <value>*</value>
+ </property>
+ <property>
+      <name>hadoop.proxyuser.hue.groups</name>
+      <value>*</value>
+ </property>
 </configuration>
