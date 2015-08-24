@@ -51,8 +51,10 @@ cp hbase-site.xml $HBASE_HOME/conf/hbase-site.xml
 cd $HUE_HOME
 make apps
 
+hdfs namenode -format
+
 cd $SPARK_HOME
 ./make_distribution.sh
 
-hdfs namenode -format
+
 
