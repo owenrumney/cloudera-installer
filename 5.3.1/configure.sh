@@ -3,23 +3,24 @@
 BASEDIR=`pwd`
 CDH="5.3.1"
 
-export HADOOP_HOME="/usr/local/cloudera/${CDH}/hadoop"
-export HBASE_HOME="/usr/local/cloudera/${CDH}/hbase"
-export HIVE_HOME="/usr/local/cloudera/${CDH}/hive"
-export HCAT_HOME="/usr/local/cloudera/${CDH}/hive/hcatalog"
-export HUE_HOME="/usr/local/cloudera/${CDH}/hue"
-export SPARK_HOME="/usr/local/cloudera/${CDH}/spark"
+export HADOOP_HOME=/usr/local/cloudera/${CDH}/hadoop
+export HBASE_HOME=/usr/local/cloudera/${CDH}/hbase
+export HIVE_HOME=/usr/local/cloudera/${CDH}/hive
+export HCAT_HOME=/usr/local/cloudera/${CDH}/hive/hcatalog
+export HUE_HOME=/usr/local/cloudera/${CDH}/hue
+export SPARK_HOME=/usr/local/cloudera/${CDH}/spark
 
 cp ~/.bash_profile ~/.bash_profile.bak
 
 cat << EOF >> ~/.bash_profile
-export HADOOP_HOME="/usr/local/cloudera/${CDH}/hadoop"
-export HBASE_HOME="/usr/local/cloudera/${CDH}/hbase"
-export HIVE_HOME="/usr/local/cloudera/${CDH}/hive"
-export HCAT_HOME="/usr/local/cloudera/${CDH}/hive/hcatalog"
-export HUE_HOME="/usr/local/cloudera/${CDH}/hue"
-export ZK_HOME="/usr/local/cloudera/${CDH}/zookeeper"
-export SPARK_HOME="/usr/local/cloudera/${CDH}/spark"
+export HADOOP_HOME=/usr/local/cloudera/${CDH}/hadoop
+export HBASE_HOME=/usr/local/cloudera/${CDH}/hbase
+export HIVE_HOME=/usr/local/cloudera/${CDH}/hive
+export HCAT_HOME=/usr/local/cloudera/${CDH}/hive/hcatalog
+export HUE_HOME=/usr/local/cloudera/${CDH}/hue
+export ZK_HOME=/usr/local/cloudera/${CDH}/zookeeper
+export SPARK_HOME=/usr/local/cloudera/${CDH}/spark
+
 export PATH=${JAVA_HOME}/bin:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${ZK_HOME}/bin:${HBASE_HOME}/bin:${HIVE_HOME}/bin:${HCAT_HOME}/bin:${M2_HOME}/bin:${ANT_HOME}/bin:${SPARK_HOME}/bin:${PATH}
 EOF
 
@@ -35,6 +36,7 @@ EOF
 cp $HBASE_HOME/conf/hbase-env.sh $HBASE_HOME/conf/hbase-env.sh.bak
 
 cat << EOF >> $HBASE_HOME/conf/hbase-env.sh
+export JAVA_HOME="$(/usr/libexec/java_home -v 1.7)"
 export HBASE_LOG_DIR="/usr/local/cloudera/ops/logs/hbase"
 export HBASE_PID_DIR="/usr/local/cloudera/ops/pids"
 export HBASE_MANAGES_ZK=true
