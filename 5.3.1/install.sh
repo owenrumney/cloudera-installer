@@ -4,6 +4,11 @@ ssh-keygen -t rsa -P ""
 
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+xcode-select --install
+
+brew install maven
 
 BASEDIR=`pwd`
 
@@ -27,27 +32,27 @@ mkdir -p zk
 
 cd /usr/local/cloudera/${CDH}
 
-# wget http://archive.cloudera.com/cdh5/cdh/5/flume-ng-1.5.0-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.5.0-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/hbase-0.98.6-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/hive-0.13.1-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/hue-3.7.0-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/oozie-4.0.0-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/pig-0.12.0-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/spark-1.2.0-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/sqoop-1.4.5-cdh5.3.1.tar.gz
-# wget http://archive.cloudera.com/cdh5/cdh/5/zookeeper-3.4.5-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/flume-ng-1.5.0-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.5.0-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/hbase-0.98.6-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/hive-0.13.1-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/hue-3.7.0-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/oozie-4.0.0-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/pig-0.12.0-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/sqoop-1.4.5-cdh5.3.1.tar.gz
+wget http://archive.cloudera.com/cdh5/cdh/5/zookeeper-3.4.5-cdh5.3.1.tar.gz
+http://www.mirrorservice.org/sites/ftp.apache.org/spark/spark-1.4.1/spark-1.4.1.tgz
 
-# tar -xvf flume-ng-1.5.0-cdh5.3.1.tar.gz
-# tar -xvf hadoop-2.5.0-cdh5.3.1.tar.gz
-# tar -xvf hbase-0.98.6-cdh5.3.1.tar.gz
-# tar -xvf hive-0.13.1-cdh5.3.1.tar.gz
-# tar -xvf hue-3.7.0-cdh5.3.1.tar.gz
-# tar -xvf oozie-4.0.0-cdh5.3.1.tar.gz
-# tar -xvf pig-0.12.0-cdh5.3.1.tar.gz
-# tar -xvf spark-1.2.0-cdh5.3.1.tar.gz
-# tar -xvf sqoop-1.4.5-cdh5.3.1.tar.gz
-# tar -xvf zookeeper-3.4.5-cdh5.3.1.tar.gz
+tar -xvf flume-ng-1.5.0-cdh5.3.1.tar.gz
+tar -xvf hadoop-2.5.0-cdh5.3.1.tar.gz
+tar -xvf hbase-0.98.6-cdh5.3.1.tar.gz
+tar -xvf hive-0.13.1-cdh5.3.1.tar.gz
+tar -xvf hue-3.7.0-cdh5.3.1.tar.gz
+tar -xvf oozie-4.0.0-cdh5.3.1.tar.gz
+tar -xvf pig-0.12.0-cdh5.3.1.tar.gz
+tar -xvf spark-1.4.1.tar.gz
+tar -xvf sqoop-1.4.5-cdh5.3.1.tar.gz
+tar -xvf zookeeper-3.4.5-cdh5.3.1.tar.gz
 
 rm *.gz
 
@@ -68,6 +73,7 @@ export HBASE_HOME="/usr/local/cloudera/${CDH}/hbase"
 export HIVE_HOME="/usr/local/cloudera/${CDH}/hive"
 export HCAT_HOME="/usr/local/cloudera/${CDH}/hive/hcatalog"
 export HUE_HOME="/usr/local/cloudera/${CDH}/hue"
+export SPARK_HOME="/usr/local/cloudera/${CDH}/spark"
 
 cp ~/.bash_profile ~/.bash_profile.bak
 
@@ -78,7 +84,8 @@ export HIVE_HOME="/usr/local/cloudera/${CDH}/hive"
 export HCAT_HOME="/usr/local/cloudera/${CDH}/hive/hcatalog"
 export HUE_HOME="/usr/local/cloudera/${CDH}/hue"
 export ZK_HOME="/usr/local/cloudera/${CDH}/zookeeper"
-export PATH=${JAVA_HOME}/bin:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${ZK_HOME}/bin:${HBASE_HOME}/bin:${HIVE_HOME}/bin:${HCAT_HOME}/bin:${M2_HOME}/bin:${ANT_HOME}/bin:${PATH}
+export SPARK_HOME="/usr/local/cloudera/${CDH}/spark"
+export PATH=${JAVA_HOME}/bin:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${ZK_HOME}/bin:${HBASE_HOME}/bin:${HIVE_HOME}/bin:${HCAT_HOME}/bin:${M2_HOME}/bin:${ANT_HOME}/bin:${SPARK_HOME}/bin:${PATH}
 EOF
 
 cp $HADOOP_HOME/etc/hadoop/hadoop-env.sh $HADOOP_HOME/etc/hadoop/hadoop-env.sh.bak
@@ -108,6 +115,9 @@ cp hbase-site.xml $HBASE_HOME/conf/hbase-site.xml
 
 cd $HUE_HOME
 make apps
+
+cd $SPARK_HOME
+./make_distribution.sh
 
 hdfs namenode -format
 
