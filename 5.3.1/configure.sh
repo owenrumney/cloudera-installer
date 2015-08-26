@@ -55,6 +55,7 @@ make apps
 
 hdfs namenode -format
 
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.6)
 cd $SPARK_HOME
 ./make_distribution.sh
 

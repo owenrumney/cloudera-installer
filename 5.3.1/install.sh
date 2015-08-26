@@ -9,6 +9,8 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 xcode-select --install
 
 brew install maven
+brew install wget
+brew install mysql
 
 BASEDIR=`pwd`
 
